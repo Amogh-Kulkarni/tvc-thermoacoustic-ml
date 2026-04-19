@@ -1,0 +1,25 @@
+# Data files (not included in repo)
+data/*.mat
+*.mat
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Large binary files
+*.pptx
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Results that can be regenerated
+results/*/plots/
+*.pkl
