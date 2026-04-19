@@ -1,20 +1,50 @@
 # ML Classification of Thermoacoustic Regimes in a Trapped Vortex Combustor
 
-Classification of five nonlinear thermoacoustic regimes (Limit Cycle, Period-2, Quasi-periodic, SNA, Chaos) from pressure measurements in a trapped vortex combustor using classical ML, deep learning, and ensemble methods.
+Thermoacoustic instabilities can crack liners, melt injectors, and destroy gas-turbine combustors in seconds. Being able to identify the current dynamical regime from a short pressure sample is a first step toward real-time monitoring and active control. This project classifies five such regimes in a lab-scale trapped vortex combustor (TVC) using classical ML, deep learning, and ensemble methods.
+
+<p align="center">
+  <img src="results/key_figures/tvc_setup.png" alt="TVC experimental setup" width="600"/>
+  <br/>
+  <em>Experimental setup: cavity-based combustor at IIT Bombay's Applied Flow Dynamics Laboratory.</em>
+</p>
 
 ## Key Results
 
-- **3-class (Periodic / Quasi-periodic / Aperiodic):** 100% accuracy with hard-voting ensemble across 7 models. Verified robust with classical models only.
-- **5-class:** 69% +/- 9.7% mean accuracy across 5 seeds for 2D-CNN on recurrence plots (best seed: 80%). 1D-CNN achieves 69% +/- 4.9% (most stable DL model).
-- **Cross-condition generalization:** Classifier trained at phi=0.72 achieves 100% on high-confidence recordings and 81% overall (3-class) when tested on new data at phi=0.61.
+<p align="center">
+  <img src="results/key_figures/comparison_3class.png" alt="3-class accuracy across all 19 methods" width="750"/>
+</p>
+
+- **3-class (Periodic / Quasi-periodic / Aperiodic):** **100% accuracy** with hard-voting ensemble across 7 models. Verified robust with classical models only.
+- **5-class:** 69% $\pm$ 9.7% mean accuracy across 5 seeds for 2D-CNN on recurrence plots (best seed: 80%). 1D-CNN achieves 69% $\pm$ 4.9% (most stable DL model).
+- **Cross-condition generalization:** Classifier trained at $\phi = 0.72$ achieves 100% on high-confidence recordings and 81% overall (3-class) when tested on new data at $\phi = 0.61$.
 - **Novel finding:** Cross-channel coherence (spatial correlation of the acoustic mode across sensors) identified as the top regime discriminator. Not previously reported in thermoacoustics ML literature.
+
+<p align="center">
+  <img src="results/key_figures/cm_3c_hard_vote.png" alt="Hard-voting ensemble confusion matrix (3-class)" width="400"/>
+  <br/>
+  <em>Hard-voting ensemble: 20/20 correct on the 3-class problem.</em>
+</p>
+
+## The Five Regimes
+
+As cavity length $L/D$ increases at fixed operating conditions, the TVC traverses a bifurcation sequence from periodic to chaotic dynamics:
+
+| Regime | Description | Samples | 3-class |
+|---|---|:-:|---|
+| **Limit Cycle** | Single-frequency periodic oscillation | 5 | Periodic |
+| **Period-2** | Period-doubled subharmonic | 3 | Periodic |
+| **Quasi-periodic** | Two incommensurate frequencies, beat envelopes | 6 | Quasi-periodic |
+| **SNA** (Strange Non-Chaotic Attractor) | Aperiodic but non-chaotic, zero Lyapunov exponent | 2 | Aperiodic |
+| **Chaos** | Broadband, positive Lyapunov exponent | 4 | Aperiodic |
+
+SNAs and Period-2 are the minority classes and sit at bifurcation boundaries, making them the hardest to classify.
 
 ## Dataset
 
 - 20 pressure recordings from a lab-scale TVC at IIT Bombay
 - 3 channels, 40000 samples per channel, 20 kHz sampling rate
-- Cavity L/D varied from 0.75 to 2.625 at fixed Re=8000, phi=0.72
-- Cross-condition test data: 15 recordings at phi=0.61
+- Cavity $L/D$ varied from 0.75 to 2.625 at fixed Re = 8000, $\phi = 0.72$
+- Cross-condition test data: 15 recordings at $\phi = 0.61$
 
 **Note:** Raw .mat data files are not included. Contact the Applied Flow Dynamics Laboratory, Dept. of Aerospace Engineering, IIT Bombay for data access.
 
@@ -88,6 +118,12 @@ cd analysis/cross_condition && python main_cross_condition_test.py
 - **Classical ML:** SVM (RBF), Random Forest, XGBoost on three feature sets (windowed, nonlinear, combined)
 - **Deep Learning:** 1D-CNN on raw pressure, LSTM and GRU on feature sequences, 2D-CNN on recurrence plots. All architectures under 50K parameters with heavy regularization.
 - **Ensembles:** Hard vote, soft vote (all, classical-only, deep-only), best hybrid, stacking with logistic regression meta-learner
+
+<p align="center">
+  <img src="results/key_figures/gradcam_5c.png" alt="Grad-CAM attention for 1D-CNN" width="650"/>
+  <br/>
+  <em>Grad-CAM attention maps for the 1D-CNN: the model independently learns to focus on peak amplitudes for limit cycles, alternating peaks for Period-2, beat envelopes for quasi-periodic, and sparse intermittent events for SNA.</em>
+</p>
 
 ### Validation
 
