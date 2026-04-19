@@ -5,7 +5,7 @@ Thermoacoustic instabilities can crack liners, melt injectors, and destroy gas-t
 <p align="center">
   <img src="results/key_figures/tvc_setup.png" alt="TVC experimental setup" width="600"/>
   <br/>
-  <em>Experimental setup: cavity-based combustor at IIT Bombay's Applied Flow Dynamics Laboratory.</em>
+  <em>Experimental setup representative: cavity-based combustor at IISc: Agarwal, et al., Mixing Enhancement in a Compact Trapped Vortex Combustor 2013.</em>
 </p>
 
 ## Key Results
