@@ -100,13 +100,18 @@ Leave-one-L/D-out cross-validation (20 folds). Each fold holds out all windows f
 - Feature extraction is deterministic given the same input data
 - Full pipeline runtime: ~30 minutes on CPU
 
+## Contributors
+
+- Amogh Kulkarni
+- Souparna Bhowmik
+
 ## Citation
 
 If you use this code, please cite:
 
 ```
 @misc{kulkarni2026tvc,
-  author = {Kulkarni, Amogh},
+  author = {Kulkarni, Amogh and Bhowmik, Souparna},
   title  = {ML Classification of Thermoacoustic Regimes in a TVC},
   year   = {2026},
   school = {IIT Bombay, Dept. of Aerospace Engineering}
